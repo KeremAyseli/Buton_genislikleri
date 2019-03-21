@@ -1,0 +1,47 @@
+
+//Metod 
+public void buttonsizeandlocation(int x, int y, int wx, int hy, Button[] buton, Form fomr,object obj)
+        {   
+            x = fomr.Size.Width / 5;
+            y = fomr.Size.Height / 10;
+            wx = fomr.Size.Width /10;
+            hy = fomr.Size.Height / 5;
+            label1.Text = buton.Count().ToString(); 
+            for(int i=0;i<buton.Count();i++)//Gelen butonları sırasına göre çarpıp yeni yerini ve konumunu hesaplayan döngü 
+            {    
+            buton[i].Location = new Point(x, y+(i*100));
+            buton[i].Size = new Size(hy, wx);
+   if (buton[i].Size.Height <= 75 || buton[i].Size.Width <= 20)
+            {
+                buton[i].Size = new Size(75, 20); //Buton alt sınır 
+            }
+                else if(buton[i].Size.Height >= 140 || buton[i].Size.Width >= 70)
+                {
+                  buton[i].Size = new Size(140, 70); //Buton üst sınır
+                }
+            }
+        }
+        
+        
+     // Form_Resize metodunun içine yazılacaklar (Form_Resize formun boyutu değiştiğinde çalışır)
+        private void Form1_Resize(object sender, EventArgs e)
+        {List<Button> butonn;//Buton tipinde bir liste 
+        ArrayList liste=new ArrayList(); 
+            butonn = this.Controls.OfType<Button>().ToList(); //Formun üstünde bulunan butonları Buton tipinde oluşturduğumuz listenin içine aktarma 
+            for (int i = 0; i < butonn.Count; i++)
+            {
+                liste.Add(butonn[i]);
+
+                listView1.Items.Add(butonn[i].ToString());
+               
+            }
+            var count = this.Controls.OfType<Button>().Count(); //Formun üstünde bulununan buton sayısına erişme 
+            Button[] buton = new Button[count]; //Formun üstünde bulunan buton sayısı kadar büyüklükte yeni bir Buton listesi oluşturma
+            for (int i = 0; i <count; i++)
+            {
+                List<Button> obje_liste = liste.Cast<Button>().ToList();        
+                buton[i] = obje_liste[i];     
+            }
+       //buttonsizeandlocation Metoduna değerleri gönderme    
+            buttonsizeandlocation(button1.Location.X, button1.Location.Y, button1.Size.Width, button1.Size.Height,buton , this, listView1);  
+        }
